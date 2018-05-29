@@ -14,7 +14,7 @@ ext {
             supportLibraryVersion   : "27.1.1",
             smartrefreshVersion     : "1.0.5.1",
             okhttpVersion           : "3.9.0",
-            retrofitVersion         : "2.3.0",
+            retrofitVersion         : "2.4.0",
             glideVersion            : "4.0.0",
             daggerVersion           : "2.15",
             butterknifeVersion      : "8.8.1",
@@ -53,8 +53,8 @@ ext {
             "greendao"                          : "org.greenrobot:greendao:3.2.2",
 
             //rx
-            "rxjava"                            : "io.reactivex.rxjava2:rxjava:2.1.5",
-            "rxandroid"                         : "io.reactivex.rxjava2:rxandroid:2.0.1",
+            "rxjava"                            : "io.reactivex.rxjava2:rxjava:2.1.14",
+            "rxandroid"                         : "io.reactivex.rxjava2:rxandroid:2.0.2",
             "rxbinding"                         : "com.jakewharton.rxbinding2:rxbinding:2.1.0",
             "rxpermissions"                     : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar",
 
