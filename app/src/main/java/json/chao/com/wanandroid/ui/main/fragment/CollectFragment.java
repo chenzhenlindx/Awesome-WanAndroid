@@ -51,14 +51,25 @@ public class CollectFragment extends BaseRootFragment<CollectPresenter> implemen
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        initRecyclerView();
+    }
+
+    @Override
     protected void initEventAndData() {
         super.initEventAndData();
-        initRecyclerView();
         mPresenter.getCollectList(mCurrentPage, true);
         setRefresh();
         if (CommonUtils.isNetworkConnected()) {
             showLoading();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showRefreshEvent();
     }
 
     @Override
@@ -124,9 +135,9 @@ public class CollectFragment extends BaseRootFragment<CollectPresenter> implemen
         mAdapter.isCollectPage();
         mAdapter.setOnItemClickListener((adapter, view, position) -> startArticleDetailPager(view, position));
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> clickChildEvent(view, position));
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(_mActivity));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void clickChildEvent(View view, int position) {

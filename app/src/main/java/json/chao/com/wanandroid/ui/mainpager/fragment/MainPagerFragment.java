@@ -44,8 +44,8 @@ import json.chao.com.wanandroid.utils.JudgeUtils;
  * @author quchao
  * @date 2017/11/29
  */
-
-public class MainPagerFragment extends BaseRootFragment<MainPagerPresenter> implements MainPagerContract.View {
+public class MainPagerFragment extends BaseRootFragment<MainPagerPresenter>
+        implements MainPagerContract.View {
 
     @BindView(R.id.normal_view)
     SmartRefreshLayout mRefreshLayout;
@@ -98,9 +98,14 @@ public class MainPagerFragment extends BaseRootFragment<MainPagerPresenter> impl
     }
 
     @Override
+    protected void initView() {
+        super.initView();
+        initRecyclerView();
+    }
+
+    @Override
     protected void initEventAndData() {
         super.initEventAndData();
-        initRecyclerView();
         setRefresh();
         if (loggedAndNotRebuilt()) {
             mPresenter.loadMainPagerData();
@@ -309,6 +314,10 @@ public class MainPagerFragment extends BaseRootFragment<MainPagerPresenter> impl
                 && CommonUtils.isNetworkConnected()) {
             mRefreshLayout.autoRefresh();
         }
+    }
+
+    public Banner getBanner() {
+        return mBanner;
     }
 
     private void likeEvent(int position) {

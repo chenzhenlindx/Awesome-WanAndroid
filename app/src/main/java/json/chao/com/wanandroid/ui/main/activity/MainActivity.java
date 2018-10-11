@@ -51,7 +51,6 @@ import json.chao.com.wanandroid.utils.StatusBarUtil;
  * @author quchao
  * @date 2017/11/28
  */
-
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
     @BindView(R.id.drawer_layout)
@@ -131,11 +130,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 if (usageDialogFragment == null) {
                     usageDialogFragment = new UsageDialogFragment();
                 }
+                if (!isDestroyed() && usageDialogFragment.isAdded()) {
+                    usageDialogFragment.dismiss();
+                }
                 usageDialogFragment.show(getSupportFragmentManager(), "UsageDialogFragment");
                 break;
             case R.id.action_search:
                 if (searchDialogFragment == null) {
                     searchDialogFragment = new SearchDialogFragment();
+                }
+                if (!isDestroyed() && searchDialogFragment.isAdded()) {
+                    searchDialogFragment.dismiss();
                 }
                 searchDialogFragment.show(getSupportFragmentManager(), "SearchDialogFragment");
                 break;
@@ -167,12 +172,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void showSwitchProject() {
-        mBottomNavigationView.setSelectedItemId(R.id.tab_project);
+        if (mBottomNavigationView != null) {
+            mBottomNavigationView.setSelectedItemId(R.id.tab_project);
+        }
     }
 
     @Override
     public void showSwitchNavigation() {
-        mBottomNavigationView.setSelectedItemId(R.id.tab_navigation);
+        if (mBottomNavigationView != null) {
+            mBottomNavigationView.setSelectedItemId(R.id.tab_navigation);
+        }
+    }
+
+    @Override
+    public void showAutoLoginView() {
+        showLoginView();
     }
 
     @Override
@@ -340,7 +354,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mLastFgIndex = position;
         ft.hide(lastFg);
         if (!targetFg.isAdded()) {
-            getSupportFragmentManager().beginTransaction().remove(targetFg).commit();
+            getSupportFragmentManager().beginTransaction().remove(targetFg).commitAllowingStateLoss();
             ft.add(R.id.fragment_group, targetFg);
         }
         ft.show(targetFg);
@@ -420,6 +434,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         CommonAlertDialog.newInstance().cancelDialog(true);
         mNavigationView.getMenu().findItem(R.id.nav_item_logout).setVisible(false);
         mPresenter.setLoginStatus(false);
+        mPresenter.setLoginAccount("");
+        mPresenter.setLoginPassword("");
         CookiesManager.clearAllCookies();
         RxBus.getDefault().post(new LoginEvent(false));
         startActivity(new Intent(this, LoginActivity.class));
